@@ -22,19 +22,24 @@ var Playlist = {
     document.getElementById("medias").appendChild(el);
   },
 
-  initializePlaylist: function () {
-    const visibleMedias = this.medias.filter((media) => media.visible);
+  initializePlaylist: async function () {
+    try {
+      this.medias = await Utils.getMedias();
+      const visibleMedias = this.medias.filter((media) => media.visible);
 
-    if (visibleMedias.length > 0) {
-      document
-        .querySelector(".wistia_embed")
-        .classList.add("wistia_async_" + visibleMedias[0].hashed_id);
+      if (visibleMedias.length > 0) {
+        document
+          .querySelector(".wistia_embed")
+          .classList.add("wistia_async_" + visibleMedias[0].hashed_id);
 
-      visibleMedias.forEach(function (media) {
-        Playlist.renderMedia(media);
-      });
-    } else {
-      console.log("No visible medias to display");
+        visibleMedias.forEach(function (media) {
+          Playlist.renderMedia(media);
+        });
+      } else {
+        console.log("No visible medias to display");
+      }
+    } catch (error) {
+      console.error("Error initializing playlist:", error);
     }
   },
 
@@ -57,17 +62,18 @@ var Playlist = {
 (function () {
   document.addEventListener(
     "DOMContentLoaded",
-    function () {
-      Playlist.medias = Utils.getMedias();
+    async function () {
+      try {
+        await Playlist.initializePlaylist();
 
-      if (Playlist.medias.length > 0) {
-        Playlist.player = window._wq || [];
-
-        Playlist.initializePlaylist();
-
-        Playlist.autoplayPlaylist();
-      } else {
-        console.log("No medias found in local storage");
+        if (Playlist.medias.length > 0) {
+          Playlist.player = window._wq || [];
+          Playlist.autoplayPlaylist();
+        } else {
+          console.log("No medias found in local storage");
+        }
+      } catch (error) {
+        console.error("Error in DOMContentLoaded:", error);
       }
     },
     false
