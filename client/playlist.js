@@ -58,7 +58,7 @@ var Playlist = {
   document.addEventListener(
     "DOMContentLoaded",
     function () {
-      Playlist.medias = Utils.getMediasFromLocalStorage();
+      Playlist.medias = Utils.getMedias();
 
       if (Playlist.medias.length > 0) {
         Playlist.player = window._wq || [];
