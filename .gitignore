@@ -1,0 +1,31 @@
+fullstack.zip
+tmp
+.idea
+.vscode
+*.log
+
+# Dependencies
+/node_modules
+
+# Build
+/dist
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Temporary files
+*.tmp
+*.temp
+
+# Cache directories
+.cache
+.npm
